@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto&family=Yatra+One&display=swap");
 * {
 	margin: 0;
 	padding: 0;
@@ -9,6 +9,11 @@ html {
 	font-size: 10px;
 	letter-spacing: 1.7px;
 	overflow-x: hidden;
+}
+
+@font-face {
+	font-family: "shamery";
+	src: url("./assets/fonts/shamery.ttf") format("truetype");
 }
 
 .container {
@@ -29,6 +34,10 @@ li {
 
 a {
 	text-decoration: none;
+}
+
+img {
+	object-fit: cover;
 }
 
 .bg-one {

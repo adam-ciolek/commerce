@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import LogoSocial from "./LogoSocial";
 import { Link } from "react-router-dom";
@@ -8,10 +8,43 @@ import { links } from "../data";
 import hamburger from "../assets/hamburger.png";
 
 const Navbar = () => {
-	const [open, setOpen] = useState(false);
+	const [sidebar, setSidebar] = useState({
+		initial: false,
+		clicked: null,
+		menuName: "Menu",
+	});
 
-	const handleCloseMenu = () => {
-		setOpen(!open);
+	// state for disabled button
+	const [disabled, setDisabled] = useState(false);
+
+	const handleMenu = () => {
+		disabledMenu();
+		if (sidebar.initial === false) {
+			setSidebar({
+				initial: null,
+				clicked: true,
+				menuName: "Close",
+			});
+		} else if (sidebar.clicked === true) {
+			setSidebar({
+				clicked: !sidebar.clicked,
+				menuName: "Menu",
+			});
+		} else if (sidebar.clicked === false) {
+			setSidebar({
+				clicked: !sidebar.clicked,
+				menuName: "Close",
+			});
+		}
+	};
+
+	// Determine if our menu button should be disabled
+
+	const disabledMenu = () => {
+		setDisabled(!disabled);
+		setTimeout(() => {
+			setDisabled(false);
+		}, 1200);
 	};
 
 	return (
@@ -21,7 +54,11 @@ const Navbar = () => {
 					<div className="hamburger">
 						<LogoSocial />
 						<div className="header-social">
-							<a href="" target="_blank" rel="noreferrer">
+							<a
+								href="https://pl-pl.facebook.com/"
+								target="_blank"
+								rel="noreferrer"
+							>
 								<svg
 									width="27"
 									height="26"
@@ -35,7 +72,11 @@ const Navbar = () => {
 									/>
 								</svg>
 							</a>
-							<a href="#" target="_blank" rel="noreferrer">
+							<a
+								href="https://www.instagram.com/"
+								target="_blank"
+								rel="noreferrer"
+							>
 								<svg
 									width="27"
 									height="26"
@@ -51,10 +92,19 @@ const Navbar = () => {
 							</a>
 						</div>
 						<div className="hamburger__menu">
-							<img src={hamburger} alt="menu" onClick={() => setOpen(!open)} />
+							<img
+								src={hamburger}
+								alt="menu"
+								onClick={handleMenu}
+								disabled={disabled}
+							/>
 						</div>
 					</div>
-					<Sidebar handleCloseMenu={handleCloseMenu} open={open} />
+					<Sidebar
+						handleMenu={handleMenu}
+						sidebar={sidebar}
+						disabled={disabled}
+					/>
 					<ul className="link-nav">
 						{links.map((link) => {
 							const { id, title, url } = link;

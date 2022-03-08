@@ -12,11 +12,12 @@ const Sidebar = ({ handleMenu, sidebar, disabled }) => {
 	let linkThree = useRef(null);
 	let linkFour = useRef(null);
 	let linkFive = useRef(null);
+	let close = useRef(null);
 	let fb = useRef(null);
 	let instagram = useRef(null);
 
 	useEffect(() => {
-		if (sidebar.clicked === false) {
+		if (sidebar === false) {
 			// close menu
 			gsap.to([menu], {
 				y: "-100%",
@@ -40,10 +41,12 @@ const Sidebar = ({ handleMenu, sidebar, disabled }) => {
 				stagger: 0.25,
 				ease: "power1.out",
 			});
-		} else if (
-			sidebar.clicked === true ||
-			(sidebar.clicked === true && sidebar.initial === null)
-		) {
+			gsap.to([close], {
+				duration: 0.2,
+				opacity: 0,
+				ease: "power1.out",
+			});
+		} else if (sidebar === true) {
 			// open our menu
 			gsap.to([menu], {
 				y: "0%",
@@ -67,17 +70,26 @@ const Sidebar = ({ handleMenu, sidebar, disabled }) => {
 				stagger: 0.25,
 				ease: "power1.out",
 			});
+			gsap.to([close], {
+				duration: 1,
+				delay: 2,
+				opacity: 1,
+				ease: "power1.out",
+			});
 		}
 	});
 
 	return (
 		<Wrapper ref={(el) => (menu = el)}>
 			<ul className="links">
-				<VscChromeClose
+				<button
+					ref={(el) => (close = el)}
 					className="close"
 					onClick={handleMenu}
 					disabled={disabled}
-				/>
+				>
+					<VscChromeClose />
+				</button>
 				<li onClick={handleMenu} ref={(el) => (linkOne = el)}>
 					<Link to="/">Home</Link>
 				</li>
@@ -149,7 +161,8 @@ const Wrapper = styled.div`
 	width: 100%;
 	height: 100vh;
 	position: fixed;
-	top: 0;
+	top:0;
+
 
 	@media screen and (min-width:1024px) {
 		display:none;
@@ -163,6 +176,10 @@ const Wrapper = styled.div`
 			top: 4rem;
 			right: 1.6rem;
 			font-size: 2.5rem;
+			background: transparent;
+			border:none;
+			color: #fff;
+			opacity: 0;
 		}
 
 		li {

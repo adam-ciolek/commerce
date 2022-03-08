@@ -8,43 +8,28 @@ import { links } from "../data";
 import hamburger from "../assets/hamburger.png";
 
 const Navbar = () => {
-	const [sidebar, setSidebar] = useState({
-		initial: false,
-		clicked: null,
-		menuName: "Menu",
-	});
+	const [sidebar, setSidebar] = useState(false);
 
 	// state for disabled button
 	const [disabled, setDisabled] = useState(false);
 
-	const handleMenu = () => {
-		disabledMenu();
-		if (sidebar.initial === false) {
-			setSidebar({
-				initial: null,
-				clicked: true,
-				menuName: "Close",
-			});
-		} else if (sidebar.clicked === true) {
-			setSidebar({
-				clicked: !sidebar.clicked,
-				menuName: "Menu",
-			});
-		} else if (sidebar.clicked === false) {
-			setSidebar({
-				clicked: !sidebar.clicked,
-				menuName: "Close",
-			});
-		}
+	const handleMenuOpen = () => {
+		setSidebar(!sidebar);
+		disableMenu();
+	};
+
+	const handleMenuClose = () => {
+		setSidebar(!sidebar);
+		disableMenu();
 	};
 
 	// Determine if our menu button should be disabled
 
-	const disabledMenu = () => {
+	const disableMenu = () => {
 		setDisabled(!disabled);
 		setTimeout(() => {
 			setDisabled(false);
-		}, 1200);
+		}, 3000);
 	};
 
 	return (
@@ -91,17 +76,16 @@ const Navbar = () => {
 								</svg>
 							</a>
 						</div>
-						<div className="hamburger__menu">
-							<img
-								src={hamburger}
-								alt="menu"
-								onClick={handleMenu}
-								disabled={disabled}
-							/>
-						</div>
+						<button
+							className="hamburger__menu"
+							onClick={handleMenuOpen}
+							disabled={disabled}
+						>
+							<img src={hamburger} alt="menu" />
+						</button>
 					</div>
 					<Sidebar
-						handleMenu={handleMenu}
+						handleMenu={handleMenuClose}
 						sidebar={sidebar}
 						disabled={disabled}
 					/>
@@ -124,14 +108,17 @@ const Navbar = () => {
 const Wrapper = styled.nav`
 	box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
 	position: relative;
-	z-index: 1000;
+	z-index: 100;
 
 	.hamburger {
 		padding: 2rem;
-		// margin: 2rem;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+
+		&__menu {
+			border: none;
+		}
 
 		@media screen and (min-width: 1024px) {
 			display: block;

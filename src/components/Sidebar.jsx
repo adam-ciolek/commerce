@@ -7,17 +7,9 @@ import { VscChromeClose } from "react-icons/vsc";
 const Sidebar = ({ handleMenu, sidebar, disabled }) => {
 	// vars for our animated dom node
 	let menu = useRef(null);
-	let linkOne = useRef(null);
-	let linkTwo = useRef(null);
-	let linkThree = useRef(null);
-	let linkFour = useRef(null);
-	let linkFive = useRef(null);
-	let close = useRef(null);
-	let fb = useRef(null);
-	let instagram = useRef(null);
 
 	useEffect(() => {
-		if (sidebar === false) {
+		if (sidebar.clicked === false) {
 			// close menu
 			gsap.to([menu], {
 				y: "-100%",
@@ -25,55 +17,15 @@ const Sidebar = ({ handleMenu, sidebar, disabled }) => {
 				delay: 1.4,
 				ease: "power1.out",
 			});
-			gsap.to([linkOne, linkTwo, linkThree, linkFour, linkFive], {
-				x: "20%",
-				duration: 1,
-				delay: 0.25,
-				opacity: 0,
-				stagger: 0.25,
-				ease: "power1.out",
-			});
-			gsap.to([fb, instagram], {
-				x: "20%",
-				duration: 1,
-				delay: 0.25,
-				opacity: 0,
-				stagger: 0.25,
-				ease: "power1.out",
-			});
-			gsap.to([close], {
-				duration: 0.2,
-				opacity: 0,
-				ease: "power1.out",
-			});
-		} else if (sidebar === true) {
+		} else if (
+			sidebar.clicked === true ||
+			(sidebar.clicked === true && sidebar.initial === null)
+		) {
 			// open our menu
 			gsap.to([menu], {
 				y: "0%",
 				duration: 1,
 				delay: 0.5,
-				ease: "power1.out",
-			});
-			gsap.to([linkOne, linkTwo, linkThree, linkFour, linkFive], {
-				x: "0%",
-				duration: 1,
-				delay: 1.25,
-				opacity: 1,
-				stagger: 0.25,
-				ease: "power1.out",
-			});
-			gsap.to([fb, instagram], {
-				x: "0%",
-				duration: 1,
-				delay: 1.25,
-				opacity: 1,
-				stagger: 0.25,
-				ease: "power1.out",
-			});
-			gsap.to([close], {
-				duration: 1,
-				delay: 2,
-				opacity: 1,
 				ease: "power1.out",
 			});
 		}
@@ -82,27 +34,22 @@ const Sidebar = ({ handleMenu, sidebar, disabled }) => {
 	return (
 		<Wrapper ref={(el) => (menu = el)}>
 			<ul className="links">
-				<button
-					ref={(el) => (close = el)}
-					className="close"
-					onClick={handleMenu}
-					disabled={disabled}
-				>
+				<button className="close" onClick={handleMenu} disabled={disabled}>
 					<VscChromeClose />
 				</button>
-				<li onClick={handleMenu} ref={(el) => (linkOne = el)}>
+				<li onClick={handleMenu}>
 					<Link to="/">Home</Link>
 				</li>
-				<li onClick={handleMenu} ref={(el) => (linkTwo = el)}>
+				<li onClick={handleMenu}>
 					<Link to="/portfolio">Portfolio</Link>
 				</li>
-				<li onClick={handleMenu} ref={(el) => (linkThree = el)}>
+				<li onClick={handleMenu}>
 					<Link to="/foto-produkty">Fotoprodukty</Link>
 				</li>
-				<li onClick={handleMenu} ref={(el) => (linkFour = el)}>
+				<li onClick={handleMenu}>
 					<Link to="/oferta">Oferta</Link>
 				</li>
-				<li onClick={handleMenu} ref={(el) => (linkFive = el)}>
+				<li onClick={handleMenu}>
 					<Link to="/kontact">Kontakt</Link>
 				</li>
 				<div className="social">
@@ -110,7 +57,6 @@ const Sidebar = ({ handleMenu, sidebar, disabled }) => {
 						href="https://pl-pl.facebook.com/"
 						target="_blank"
 						rel="noreferrer"
-						ref={(el) => (fb = el)}
 						onClick={handleMenu}
 					>
 						<svg
@@ -130,7 +76,6 @@ const Sidebar = ({ handleMenu, sidebar, disabled }) => {
 						href="https://www.instagram.com/"
 						target="_blank"
 						rel="noreferrer"
-						ref={(el) => (instagram = el)}
 						onClick={handleMenu}
 					>
 						<svg
@@ -179,15 +124,12 @@ const Wrapper = styled.div`
 			background: transparent;
 			border:none;
 			color: #fff;
-			opacity: 0;
 		}
 
 		li {
 			text-align: left;
 			list-style: none;
 			margin: 1.3rem 0;
-			transform: translateX(20%);
-			opacity: 0;
 		}
 
 		li a {
@@ -208,10 +150,6 @@ const Wrapper = styled.div`
 				img {
 					stroke: #005a34;
 				}
-			}
-
-			a {
-				opacity: 0;
 			}
 
 			a:nth-child(1) {

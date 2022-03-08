@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import gsap from "gsap";
 import styled from "styled-components";
 import LogoSocial from "./LogoSocial";
 import { Link } from "react-router-dom";
@@ -8,28 +9,43 @@ import { links } from "../data";
 import hamburger from "../assets/hamburger.png";
 
 const Navbar = () => {
-	const [sidebar, setSidebar] = useState(false);
+	const [sidebar, setSidebar] = useState({
+		initial: false,
+		clicked: null,
+		menuName: "Menu",
+	});
 
 	// state for disabled button
 	const [disabled, setDisabled] = useState(false);
 
-	const handleMenuOpen = () => {
-		setSidebar(!sidebar);
-		disableMenu();
-	};
-
-	const handleMenuClose = () => {
-		setSidebar(!sidebar);
-		disableMenu();
+	const handleMenu = () => {
+		disabledMenu();
+		if (sidebar.initial === false) {
+			setSidebar({
+				initial: null,
+				clicked: true,
+				menuName: "Close",
+			});
+		} else if (sidebar.clicked === true) {
+			setSidebar({
+				clicked: !sidebar.clicked,
+				menuName: "Menu",
+			});
+		} else if (sidebar.clicked === false) {
+			setSidebar({
+				clicked: !sidebar.clicked,
+				menuName: "Close",
+			});
+		}
 	};
 
 	// Determine if our menu button should be disabled
 
-	const disableMenu = () => {
+	const disabledMenu = () => {
 		setDisabled(!disabled);
 		setTimeout(() => {
 			setDisabled(false);
-		}, 3000);
+		}, 1200);
 	};
 
 	return (
@@ -78,14 +94,14 @@ const Navbar = () => {
 						</div>
 						<button
 							className="hamburger__menu"
-							onClick={handleMenuOpen}
+							onClick={handleMenu}
 							disabled={disabled}
 						>
 							<img src={hamburger} alt="menu" />
 						</button>
 					</div>
 					<Sidebar
-						handleMenu={handleMenuClose}
+						handleMenu={handleMenu}
 						sidebar={sidebar}
 						disabled={disabled}
 					/>

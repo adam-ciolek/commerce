@@ -2,17 +2,19 @@ import React from "react";
 import styled from "styled-components";
 
 const Footer = () => {
+	const date = new Date().getFullYear();
+
 	return (
 		<Wrapper>
 			<p>made by ....</p>
 			<p>copyright ©. wszelkie prawa zastrzeżone</p>
-			<p>2022</p>
+			<p>{date}</p>
 		</Wrapper>
 	);
 };
 
 const Wrapper = styled.section`
-	margin-top: 4rem;
+	margin-top: 2rem;
 	padding: 0 2rem 2rem 2rem;
 
 	@media screen and (min-width: 500px) {

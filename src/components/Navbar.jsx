@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import gsap from "gsap";
 import styled from "styled-components";
 import LogoSocial from "./LogoSocial";
 import { Link } from "react-router-dom";

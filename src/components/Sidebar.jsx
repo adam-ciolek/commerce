@@ -1,12 +1,17 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 import { VscChromeClose } from "react-icons/vsc";
 
 const Sidebar = ({ handleMenu, sidebar, disabled }) => {
 	// vars for our animated dom node
 	let menu = useRef(null);
+	let linkOne = useRef(null);
+	let linkTwo = useRef(null);
+	let linkThree = useRef(null);
+	let linkFour = useRef(null);
+	let linkFive = useRef(null);
 
 	useEffect(() => {
 		if (sidebar.clicked === false) {
@@ -16,6 +21,36 @@ const Sidebar = ({ handleMenu, sidebar, disabled }) => {
 				duration: 1,
 				delay: 1.4,
 				ease: "power1.out",
+			});
+			gsap.to([linkOne], {
+				duration: 1,
+				delay: 0.25,
+				ease: "power1.out",
+				opacity: 0,
+			});
+			gsap.to([linkTwo], {
+				duration: 1,
+				delay: 0.5,
+				ease: "power1.out",
+				opacity: 0,
+			});
+			gsap.to([linkThree], {
+				duration: 1,
+				delay: 0.75,
+				ease: "power1.out",
+				opacity: 0,
+			});
+			gsap.to([linkFour], {
+				duration: 1,
+				delay: 1,
+				ease: "power1.out",
+				opacity: 0,
+			});
+			gsap.to([linkFive], {
+				duration: 1,
+				delay: 1.25,
+				ease: "power1.out",
+				opacity: 0,
 			});
 		} else if (
 			sidebar.clicked === true ||
@@ -28,6 +63,36 @@ const Sidebar = ({ handleMenu, sidebar, disabled }) => {
 				delay: 0.5,
 				ease: "power1.out",
 			});
+			gsap.to([linkOne], {
+				duration: 1,
+				delay: 1,
+				ease: "power1.out",
+				opacity: 1,
+			});
+			gsap.to([linkTwo], {
+				duration: 1,
+				delay: 1.25,
+				ease: "power1.out",
+				opacity: 1,
+			});
+			gsap.to([linkThree], {
+				duration: 1,
+				delay: 1.5,
+				ease: "power1.out",
+				opacity: 1,
+			});
+			gsap.to([linkFour], {
+				duration: 1,
+				delay: 1.75,
+				ease: "power1.out",
+				opacity: 1,
+			});
+			gsap.to([linkFive], {
+				duration: 1,
+				delay: 2,
+				ease: "power1.out",
+				opacity: 1,
+			});
 		}
 	});
 
@@ -38,19 +103,29 @@ const Sidebar = ({ handleMenu, sidebar, disabled }) => {
 					<VscChromeClose />
 				</button>
 				<li onClick={handleMenu}>
-					<Link to="/">Home</Link>
+					<Link to="/" ref={(el) => (linkOne = el)}>
+						Home
+					</Link>
 				</li>
 				<li onClick={handleMenu}>
-					<Link to="/portfolio">Portfolio</Link>
+					<Link to="/portfolio" ref={(el) => (linkTwo = el)}>
+						Portfolio
+					</Link>
 				</li>
 				<li onClick={handleMenu}>
-					<Link to="/foto-produkty">Fotoprodukty</Link>
+					<Link to="/foto-produkty" ref={(el) => (linkThree = el)}>
+						Fotoprodukty
+					</Link>
 				</li>
 				<li onClick={handleMenu}>
-					<Link to="/oferta">Oferta</Link>
+					<Link to="/oferta" ref={(el) => (linkFour = el)}>
+						Oferta
+					</Link>
 				</li>
 				<li onClick={handleMenu}>
-					<Link to="/kontact">Kontakt</Link>
+					<Link to="/kontact" ref={(el) => (linkFive = el)}>
+						Kontakt
+					</Link>
 				</li>
 				<div className="social">
 					<a
@@ -97,6 +172,17 @@ const Sidebar = ({ handleMenu, sidebar, disabled }) => {
 	);
 };
 
+const show = keyframes`
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		transform: translateY(0px);
+		opacity: 1;
+	}
+`;
+
 const Wrapper = styled.div`
 	transform: translateY(-100%);
 	display: flex;
@@ -130,6 +216,7 @@ const Wrapper = styled.div`
 			text-align: left;
 			list-style: none;
 			margin: 1.3rem 0;
+
 		}
 
 		li a {
@@ -139,6 +226,7 @@ const Wrapper = styled.div`
 			text-transform: uppercase;
 			width: 100%;
 			display: block;
+			opacity: 0;
 		}
 
 		.social {
